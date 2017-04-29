@@ -10,6 +10,7 @@
         "prebuild": "mkdir -p dist/ && cp package.json yarn.lock LICENSE readme.md dist/",
         "build": "babel src/ -d dist/src",
         "patch": "npm version patch -m 'v%s' && js-beautify -r package.json && git commit -a --amend --no-edit",
+        "unpatch": "git tag -d `npm view s-t-m version` && git reset --hard HEAD^",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
