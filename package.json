@@ -1,0 +1,28 @@
+{
+  "name": "s-t-m",
+  "version": "0.0.1",
+  "description": "S-T-M stands for Services, Tools, and Modules; STM is a microservice architecture manager",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DevelopEXp/STM.git"
+  },
+  "keywords": [
+    "services",
+    "tools",
+    "modules",
+    "microservices",
+    "architecture",
+    "bootstrap",
+    "enterprise"
+  ],
+  "author": "“Raymond <“raymond.benefield@gmail.com”> (https://twitter.com/RayBenefield)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/DevelopEXp/STM/issues"
+  },
+  "homepage": "https://github.com/DevelopEXp/STM#readme"
+}
