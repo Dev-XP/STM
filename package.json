@@ -4,7 +4,8 @@
     "description": "S-T-M stands for Services, Tools, and Modules; STM is a microservice architecture manager",
     "main": "src/index.js",
     "scripts": {
-        "patch": "npm version patch -m 'v%s' && js-beautify -r package.json && git commit -a --amend --no-edit && npm publish",
+        "prepublish": "npm run patch",
+        "patch": "npm version patch -m 'v%s' && js-beautify -r package.json && git commit -a --amend --no-edit",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
