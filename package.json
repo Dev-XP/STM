@@ -1,6 +1,6 @@
 {
     "name": "s-t-m",
-    "version": "0.0.7",
+    "version": "0.0.8",
     "description": "S-T-M stands for Services, Tools, and Modules; STM is a microservice architecture manager",
     "main": "src/index.js",
     "bin": {
@@ -37,6 +37,8 @@
         "js-beautify": "^1.6.12"
     },
     "babel": {
-        "presets": ["es2015"]
+        "presets": [
+            "es2015"
+        ]
     }
 }
