@@ -1,6 +1,6 @@
 {
     "name": "s-t-m",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "description": "S-T-M stands for Services, Tools, and Modules; STM is a microservice architecture manager",
     "main": "src/index.js",
     "scripts": {
