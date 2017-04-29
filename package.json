@@ -35,5 +35,8 @@
         "babel-cli": "^6.24.1",
         "babel-preset-es2015": "^6.24.1",
         "js-beautify": "^1.6.12"
+    },
+    "babel": {
+        "presets": ["es2015"]
     }
 }
