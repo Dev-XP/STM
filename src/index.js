@@ -3,6 +3,8 @@
 import stm from 'commander';
 import project from '../package';
 
-stm
-    .version(project.version)
-    .parse(process.argv);
+stm.version(project.version);
+
+// Commands for STM
+
+stm.parse(process.argv);
