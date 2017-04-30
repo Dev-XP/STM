@@ -1,3 +1,8 @@
 #! /usr/bin/env node
 
-console.log("console.log output")
+import stm from 'commander';
+import project from '../package';
+
+stm
+    .version(project.version)
+    .parse(process.argv);
