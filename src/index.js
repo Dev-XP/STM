@@ -22,7 +22,7 @@ const programObservable = Observable.create((observer) => {
         .action((command, options) => {
             observer.next({
                 command: command.name(),
-                options,
+                options: command.args,
             });
             observer.complete();
         })
@@ -45,4 +45,11 @@ const help$ = programObservable
         })
     );
 
-help$.subscribe(console.log);
+const services$ = programObservable
+    .filter(_.negate(_.isEmpty))
+    .do(s => console.log(`Running ${s.command} service.`));
+
+Observable.merge(
+    help$,
+    services$,
+).subscribe();
