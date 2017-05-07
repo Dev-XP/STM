@@ -5,10 +5,8 @@ import { Observable } from 'rxjs';
 import minimist from 'minimist';
 import log from './log';
 
-Observable
-    .of(process.argv.slice(2))
-    .do(log('raw args'))
-    .mergeMap(processArgs => Observable
+const commandParser = (programSpecs = {}) =>
+    processArgs => Observable
         .of(processArgs)
         .map(minimist)
         .do(log('parsed args'))
@@ -18,6 +16,10 @@ Observable
                 _: args._.slice(1),
             }),
         }))
-        .do(log('sub-command'))
-    )
+        .do(log('sub-command'));
+
+Observable
+    .of(process.argv.slice(2))
+    .do(log('raw args'))
+    .mergeMap(commandParser())
     .subscribe(log('result'));
