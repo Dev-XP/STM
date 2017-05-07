@@ -8,13 +8,16 @@ import log from './log';
 Observable
     .of(process.argv.slice(2))
     .do(log('raw args'))
-    .map(minimist)
-    .do(log('parsed args'))
-    .map(args => ({
-        command: args._[0] || '',
-        params: _.extend(args, {
-            _: args._.slice(1),
-        }),
-    }))
-    .do(log('sub-command'))
+    .mergeMap(processArgs => Observable
+        .of(processArgs)
+        .map(minimist)
+        .do(log('parsed args'))
+        .map(args => ({
+            command: args._[0] || '',
+            params: _.extend(args, {
+                _: args._.slice(1),
+            }),
+        }))
+        .do(log('sub-command'))
+    )
     .subscribe(log('result'));
