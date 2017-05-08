@@ -18,7 +18,7 @@ const discoverSubCommand = stream => stream
 const isValidRequest = spec => () => true;
 const grabRequestParams = subCommandSpec => stream => stream
     .map(request => _.extend(request, {
-        params: _.pick(request.params, _.keys(subCommandSpec))
+        params: _.pick(request.params, _.keys(subCommandSpec.properties)),
     }));
 
 const validateSpec = subCommandSpec => stream => stream
@@ -47,7 +47,19 @@ Observable
     .mergeMap(commandParser({
         services: {
             init: {
-                name: true,
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "definitions": {},
+                "id": "http://example.com/example.json",
+                "properties": {
+                    "name": {
+                        "id": "/properties/name",
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "name"
+                ],
+                "type": "object"
             },
         },
     }))
