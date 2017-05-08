@@ -2,6 +2,7 @@
 
 import _ from 'lodash';
 import minimist from 'minimist';
+import { validate } from 'jsonschema';
 import { Observable, Subject } from 'rx';
 import log from './log';
 
@@ -15,7 +16,7 @@ const discoverSubCommand = stream => stream
         }),
     }));
 
-const isValidRequest = spec => () => true;
+const isValidRequest = spec => request => validate(request.params, spec).valid;
 const grabRequestParams = subCommandSpec => stream => stream
     .map(request => _.extend(request, {
         params: _.pick(request.params, _.keys(subCommandSpec.properties)),
