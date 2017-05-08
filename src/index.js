@@ -5,17 +5,21 @@ import { Observable } from 'rxjs';
 import minimist from 'minimist';
 import log from './log';
 
+const parseArgs = stream => stream.map(minimist);
+const discoverSubCommand = stream => stream
+    .map(args => ({
+        command: args._[0] || '',
+        params: _.extend(args, {
+            _: args._.slice(1),
+        }),
+    }));
+
 const commandParser = (programSpecs = {}) =>
     processArgs => Observable
         .of(processArgs)
-        .map(minimist)
+        .let(parseArgs)
         .do(log('parsed args'))
-        .map(args => ({
-            command: args._[0] || '',
-            params: _.extend(args, {
-                _: args._.slice(1),
-            }),
-        }))
+        .let(discoverSubCommand)
         .do(log('sub-command'));
 
 Observable
