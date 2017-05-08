@@ -48,6 +48,7 @@
         "commander": "^2.9.0",
         "gulp": "^3.9.1",
         "gulp-run-command": "^0.0.7",
+        "inquirer": "^3.0.6",
         "minimist": "^1.2.0",
         "strip-indent": "^2.0.0"
     }
