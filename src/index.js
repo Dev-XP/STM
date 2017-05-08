@@ -5,11 +5,6 @@ import minimist from 'minimist';
 import { Observable, Subject } from 'rx';
 import log from './log';
 
-const isValidRequest = spec => () => true;
-
-const validateSpec = subCommandSpec => stream => stream
-    .filter(isValidRequest(subCommandSpec));
-
 const parseArgs = stream => stream.map(minimist);
 
 const discoverSubCommand = stream => stream
@@ -20,10 +15,20 @@ const discoverSubCommand = stream => stream
         }),
     }));
 
-const validateRequest = stream => stream
+const isValidRequest = spec => () => true;
+const grabRequestParams = subCommandSpec => stream => stream
+    .map(request => _.extend(request, {
+        params: _.pick(request.params, _.keys(subCommandSpec))
+    }));
+
+const validateSpec = subCommandSpec => stream => stream
+    .filter(isValidRequest(subCommandSpec))
+    .let(grabRequestParams(subCommandSpec));
+
+const validateRequest = ({ services = {}}) => stream => stream
     .mergeMap(params => Observable
         .of(params)
-        .let(validateSpec(params))
+        .let(validateSpec(services[params.command] || {}))
     );
 
 const commandParser = (programSpecs = {}) =>
@@ -33,11 +38,17 @@ const commandParser = (programSpecs = {}) =>
         .do(log('Parsed Args'))
         .let(discoverSubCommand)
         .do(log('Sub-Command'))
-        .let(validateRequest)
+        .let(validateRequest(programSpecs))
         .do(log('Validated Request'));
 
 Observable
     .of(process.argv.slice(2))
     .do(log('raw args'))
-    .mergeMap(commandParser())
+    .mergeMap(commandParser({
+        services: {
+            init: {
+                name: true,
+            },
+        },
+    }))
     .subscribe(log('result'));
