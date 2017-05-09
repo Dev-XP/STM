@@ -20,14 +20,22 @@ const grabRequestParams = subCommandSpec => stream => stream
         params: _.pick(request.params, _.keys(subCommandSpec.properties)),
     }));
 
-const validateRequestSchema = subCommandSpec => stream => stream
+const validRequestsThrough = subCommandSpec => stream => stream
     .filter(isValidRequest(subCommandSpec.request.schema || {}))
     .let(grabRequestParams(subCommandSpec.request.schema || {}));
 
+const incompleteRequestsFinish = subCommandSpec => stream => stream
+    .filter(_.negate(isValidRequest(subCommandSpec.request.schema || {})))
+    .map(() => ({ error: 'roar' }));
+
 const validateRequest = ({ services = {}}) => stream => stream
     .mergeMap(params => Observable
-        .of(params)
-        .let(validateRequestSchema(services[params.command] || { request: {} }))
+        .merge(
+            Observable.of(params)
+                .let(validRequestsThrough(services[params.command] || { request: {} })),
+            Observable.of(params)
+                .let(incompleteRequestsFinish(services[params.command] || { request: {} })),
+        ),
     );
 
 export default (programSpecs = {}) =>
