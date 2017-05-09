@@ -3,7 +3,6 @@ import 'should';
 import describe from 'rxt';
 import commandParser from '../src/modules/command-parser';
 
-const logg = console.log;
 describe('Command Parser', (it) => {
     it('should recognize no command at all', ex => ex
         .given('')
