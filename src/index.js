@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 
-import { Observable } from 'rx';
+import { Observable } from 'rxjs';
 import log from './log';
 import commandParser from './modules/command-parser';
 

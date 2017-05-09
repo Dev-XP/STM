@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import minimist from 'minimist';
 import { validate } from 'jsonschema';
-import { Observable } from 'rx';
+import { Observable } from 'rxjs';
 import log from '../../log';
 
 const parseArgs = stream => stream.map(minimist);
