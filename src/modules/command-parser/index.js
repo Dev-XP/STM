@@ -14,20 +14,20 @@ const discoverSubCommand = stream => stream
         }),
     }));
 
-const isValidRequest = spec => request => validate(request.params, spec).valid;
+const isValidRequest = schema => request => validate(request.params, schema).valid;
 const grabRequestParams = subCommandSpec => stream => stream
     .map(request => _.extend(request, {
         params: _.pick(request.params, _.keys(subCommandSpec.properties)),
     }));
 
-const validateSpec = subCommandSpec => stream => stream
-    .filter(isValidRequest(subCommandSpec))
-    .let(grabRequestParams(subCommandSpec));
+const validateRequestSchema = subCommandSpec => stream => stream
+    .filter(isValidRequest(subCommandSpec.request.schema || {}))
+    .let(grabRequestParams(subCommandSpec.request.schema || {}));
 
 const validateRequest = ({ services = {}}) => stream => stream
     .mergeMap(params => Observable
         .of(params)
-        .let(validateSpec(services[params.command] || {}))
+        .let(validateRequestSchema(services[params.command] || { request: {} }))
     );
 
 export default (programSpecs = {}) =>

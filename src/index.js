@@ -10,19 +10,23 @@ Observable
     .mergeMap(commandParser({
         services: {
             init: {
-                "$schema": "http://json-schema.org/draft-04/schema#",
-                "definitions": {},
-                "id": "http://example.com/example.json",
-                "properties": {
-                    "name": {
-                        "id": "/properties/name",
-                        "type": "string"
-                    }
+                request: {
+                    schema: {
+                        "$schema": "http://json-schema.org/draft-04/schema#",
+                        "definitions": {},
+                        "id": "http://example.com/example.json",
+                        "properties": {
+                            "name": {
+                                "id": "/properties/name",
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "name"
+                        ],
+                        "type": "object"
+                    },
                 },
-                "required": [
-                    "name"
-                ],
-                "type": "object"
             },
         },
     }))
