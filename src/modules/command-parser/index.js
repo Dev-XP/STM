@@ -42,8 +42,8 @@ export default (programSpecs = {}) =>
     processArgs => Observable
         .of(processArgs)
         .let(parseArgs)
-        .do(log('Parsed Args'))
+        .do(log.section('Parsed Args'))
         .let(discoverSubCommand)
-        .do(log('Sub-Command'))
+        .do(log.section('Sub-Command'))
         .let(validateRequest(programSpecs))
-        .do(log('Validated Request'));
+        .do(log.section('Validated Request'));

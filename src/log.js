@@ -1,8 +1,12 @@
 import chalk from 'chalk';
+import winston from 'winston';
 
-export default section =>
-    properties =>
-        console.log(
-            chalk.green.bold(section),
-            chalk.cyan(JSON.stringify(properties, null, 4)),
-        );
+winston.level = 'debug';
+
+winston.section = section =>
+    properties => winston.log(
+        'debug',
+        `${chalk.green.bold(section)} ${chalk.cyan(JSON.stringify(properties, null, 4))}`
+    );
+
+export default winston;

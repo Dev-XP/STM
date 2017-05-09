@@ -6,7 +6,7 @@ import commandParser from './modules/command-parser';
 
 Observable
     .of(process.argv.slice(2))
-    .do(log('Raw Args'))
+    .do(log.section('Raw Args'))
     .mergeMap(commandParser({
         services: {
             init: {
@@ -30,4 +30,4 @@ Observable
             },
         },
     }))
-    .subscribe(log('Result'));
+    .subscribe(log.section('Result'));
