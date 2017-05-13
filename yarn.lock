@@ -2075,9 +2075,9 @@ rxjs@^5.2.0, rxjs@^5.4.0:
   dependencies:
     symbol-observable "^1.0.1"
 
-rxt@^0.2.4:
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/rxt/-/rxt-0.2.4.tgz#eede0ce337ba0ef1e07cc961607837950c6e3bc1"
+rxt@^0.2.5:
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/rxt/-/rxt-0.2.5.tgz#d0e35385952e9b4d678e3822a9c81c62d70b50d2"
   dependencies:
     chalk "^1.1.3"
     clivas "^0.2.0"

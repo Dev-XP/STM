@@ -6,7 +6,7 @@ import commandParser from '../src/modules/command-parser';
 describe('Command Parser', (it) => {
     it('should recognize no command at all', ex => ex
         .given('')
-        .whenObserving(command => Observable
+        .when(command => Observable
             .of(command)
             .mergeMap(commandParser())
         )
