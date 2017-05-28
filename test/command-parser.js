@@ -7,10 +7,14 @@ import commandParser from '../src/modules/command-parser';
 should.use(commandAssertion);
 
 describe('Command Parser', (it) => {
-    it('should recognize no command at all', ex => ex
-        .given('')
+    it('should recognize no command at all with [{{given}}]', ex => ex
+        .givenEach([
+            '',
+            '--test roar',
+            '-ab roar',
+        ])
         .when(command => Observable
-            .of(command)
+            .of(command.split(' '))
             .mergeMap(commandParser())
         )
         .then(result => result.should.be.command(''))
