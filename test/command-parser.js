@@ -19,4 +19,23 @@ describe('Command Parser', (it) => {
         )
         .then(result => result.should.be.command(''))
     );
+
+    it('should recognize a single command with no parameters using [{{given}}]', ex => ex
+        .givenEach([
+            'blog',
+            'roar',
+            'test',
+            'blog -ab roar -t',
+            'test --test roar',
+            'stuff --roar test',
+        ])
+        .when(command => Observable
+            .of(command.split(' '))
+            .mergeMap(commandParser())
+        )
+        .thenEach(
+            (result, expected) => result.should.be.command(expected),
+            ['blog', 'roar', 'test', 'blog', 'test', 'stuff'],
+        )
+    );
 });
