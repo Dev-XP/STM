@@ -38,4 +38,34 @@ describe('Command Parser', (it) => {
             ['blog', 'roar', 'test', 'blog', 'test', 'stuff'],
         )
     );
+
+    it('should recognize a single command with only the expected parameter using [{{given}}]', ex => ex
+        .givenEach([
+            'blog',
+            'roar',
+            'test',
+            'blog -ab roar -t',
+            'test --test roar',
+            'stuff --roar test',
+        ])
+        .when(command => Observable
+            .of(command.split(' '))
+            .mergeMap(commandParser({ services: {
+                blog: { request: { schema: { properties: { b: { type: 'string' } }, }, }, },
+                test: { request: { schema: { properties: { test: { type: 'string' } }, }, }, },
+                stuff: { request: { schema: { properties: { roar: { type: 'string' } }, }, }, },
+            } }))
+        )
+        .thenEach(
+            (result, expected) => result.should.be.command(expected.command, expected.parameters),
+            [
+                { command: 'blog', parameters: {} },
+                { command: 'roar', parameters: {} },
+                { command: 'test', parameters: {} },
+                { command: 'blog', parameters: { b: 'roar' } },
+                { command: 'test', parameters: { test: 'roar' } },
+                { command: 'stuff', parameters: { roar: 'test' } },
+            ],
+        )
+    );
 });
