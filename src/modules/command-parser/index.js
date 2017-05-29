@@ -14,27 +14,27 @@ const discoverSubCommand = stream => stream
         }),
     }));
 
-const isValidRequest = schema => request => validate(request.params, schema).valid;
+const isValidRequest = schema => request => validate(request.params, { properties: schema }).valid;
 const grabRequestParams = subCommandSpec => stream => stream
     .map(request => _.extend(request, {
-        params: _.pick(request.params, _.keys(subCommandSpec.properties)),
+        params: _.pick(request.params, _.keys(subCommandSpec)),
     }));
 
 const validRequestsThrough = subCommandSpec => stream => stream
-    .filter(isValidRequest(subCommandSpec.request.schema || {}))
-    .let(grabRequestParams(subCommandSpec.request.schema || {}));
+    .filter(isValidRequest(subCommandSpec))
+    .let(grabRequestParams(subCommandSpec));
 
 const incompleteRequestsFinish = subCommandSpec => stream => stream
-    .filter(_.negate(isValidRequest(subCommandSpec.request.schema || {})))
+    .filter(_.negate(isValidRequest(subCommandSpec)))
     .map(() => ({ error: 'roar' }));
 
-const validateRequest = ({ services = {}}) => stream => stream
+const validateRequest = (services) => stream => stream
     .mergeMap(params => Observable
         .merge(
             Observable.of(params)
-                .let(validRequestsThrough(services[params.command] || { request: {} })),
+                .let(validRequestsThrough(services[params.command] || {})),
             Observable.of(params)
-                .let(incompleteRequestsFinish(services[params.command] || { request: {} })),
+                .let(incompleteRequestsFinish(services[params.command] || {})),
         ),
     );
 

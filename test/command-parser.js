@@ -50,11 +50,11 @@ describe('Command Parser', (it) => {
         ])
         .when(command => Observable
             .of(command.split(' '))
-            .mergeMap(commandParser({ services: {
-                blog: { request: { schema: { properties: { b: { type: 'string' } }, }, }, },
-                test: { request: { schema: { properties: { test: { type: 'string' } }, }, }, },
-                stuff: { request: { schema: { properties: { roar: { type: 'string' } }, }, }, },
-            } }))
+            .mergeMap(commandParser({
+                blog: { b: { type: 'string' } },
+                test: { test: { type: 'string' } },
+                stuff: { roar: { type: 'string' } },
+            }))
         )
         .thenEach(
             (result, expected) => result.should.be.command(expected.command, expected.parameters),
